@@ -1,0 +1,8 @@
+This work is based on JShortcut by Jim McBeath 
+
+http://alumnus.caltech.edu/~jimmc/jshortcut/
+https://github.com/jimmc/jshortcut
+
+It was changed in 2013, March, by Lexml team in 
+order to achieve specific requirements of LexEdit 
+when running on Windows machines.
