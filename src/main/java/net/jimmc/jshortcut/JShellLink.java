@@ -26,35 +26,47 @@ public class JShellLink {
 
 	// / The folder in which this shortcut is found on disk.
 	// @see #getFolder
-	String folder; // accessed from native code by name
+	private String folder; // accessed from native code by name
 
 	// The base name of this shortcut within the folder.
 	// @see #getName
-	String name; // accessed from native code by name
+	private String name; // accessed from native code by name
 
 	// The description of this shortcut.
 	// @see #getDescription
-	String description; // accessed from native code by name
+	private String description; // accessed from native code by name
 
 	// The path or target of this shortcut.
 	// @see #getPath
-	String path; // accessed from native code by name
+	private String path; // accessed from native code by name
 
 	// The arguments (after path)
 	// @see #getArguments
-	String arguments; // accessed from native code by name
+	private String arguments; // accessed from native code by name
 
 	// The working directory for the shortcut.
-	String workingDirectory; // accessed from native code by name
+	private String workingDirectory; // accessed from native code by name
 
 	// The location of the icon for the shortcut.
-	String iconLocation; // accessed from native code by name
+	private String iconLocation; // accessed from native code by name
 
 	// The index of the icon within the specified location.
-	int iconIndex; // accessed from native code by name
+	private int iconIndex; // accessed from native code by name
+	
+	private static String libDir = System.getProperty("java.io.tmpdir");
+	
+	private static boolean initialized;
 
-	// Load our native library from CLASSPATH when this class is loaded.
-	static {
+	private static void initialize() {
+		initialize(libDir);
+	}
+	
+	public static void initialize(String libDir) {
+		
+		if(initialized) {
+			return;
+		}
+		
 		try {
 			ClassLoader cl = JShellLink.class.getClassLoader();
 
@@ -66,7 +78,7 @@ public class JShellLink {
 				throw new Exception("libname: jshortcut.dll not found");
 			}
 			
-			File tmplib = new File(System.getProperty("java.io.tmpdir"), "jshortcut.dll");
+			File tmplib = new File(libDir, "jshortcut.dll");
 			tmplib.deleteOnExit();
 			OutputStream out = new FileOutputStream(tmplib);
 			byte[] buf = new byte[1024];
@@ -77,11 +89,15 @@ public class JShellLink {
 
 			System.load(tmplib.getAbsolutePath());
 
+			JShellLink.libDir = libDir;
+			initialized = true;
+			
 		} catch (Exception e) {
 			throw new RuntimeException("Failed loading jshortcut.dll", e);
 		}
+		
 	}
-
+	
 	/**
 	 * Get the requested directory.
 	 * 
@@ -100,6 +116,7 @@ public class JShellLink {
 	 * @return The location of the special folder.
 	 */
 	public static String getDirectory(String dirtype) {
+		initialize();
 		return nGetDirectory(dirtype.toLowerCase());
 	}
 
@@ -107,6 +124,7 @@ public class JShellLink {
 	 * Create a JShellLink object with no values filled in.
 	 */
 	public JShellLink() {
+		initialize();
 	}
 
 	/**
@@ -247,11 +265,11 @@ public class JShellLink {
 
 	// End native methods
 
-	public static void main(String argv[]) {
-		JShellLink link = new JShellLink();
-
-		System.out.println(JShellLink.getDirectory("desktop"));
-
-		System.out.println("success");
-	}
+//	public static void main(String argv[]) {
+//		JShellLink link = new JShellLink();
+//
+//		System.out.println(JShellLink.getDirectory("desktop"));
+//
+//		System.out.println("success");
+//	}
 }
