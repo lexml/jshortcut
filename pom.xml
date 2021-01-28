@@ -4,7 +4,7 @@
 	
 	<groupId>br.gov.lexml.external</groupId>
 	<artifactId>jshortcut</artifactId>
-	<version>0.5.3-SNAPSHOT</version>
+	<version>0.5.4-SNAPSHOT</version>
 	<name>Empacotamento do JShortcut com DLL</name>
 	
 	<properties>
@@ -48,7 +48,6 @@
 				<version>2.4.1</version>
 				<configuration>
 					<detail>true</detail>
-					<pushChanges>false</pushChanges>
 					<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
 				</configuration>
 			</plugin>
