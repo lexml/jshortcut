@@ -8,6 +8,9 @@
 	<name>Empacotamento do JShortcut com DLL</name>
 	
 	<properties>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven.site.skip>true</maven.site.skip>
+	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
@@ -45,7 +48,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4.1</version>
+				<version>3.0.0-M1</version>
 				<configuration>
 					<detail>true</detail>
 					<allowTimestampedSnapshots>true</allowTimestampedSnapshots>
